@@ -17,7 +17,7 @@ class Player {
 
   Player(this._game, this._channel, this.name) {
     _channel.stream.listen(handleIncomingMessage).onDone(disconnect);
-    for (var i = 0; i < 5; i++) {
+    for (var i = 0; i < (name.length > 20 ? name.length : 5); i++) {
       hand.add(_game.deck.removeFirst());
       _game.checkDeckEmpty();
     }

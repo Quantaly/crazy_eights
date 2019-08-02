@@ -11,7 +11,14 @@ export 'mock_game_connection_service.dart';
 
 class GameConnectionService {
   GameConnection connect(String code) {
-    var name = windowPrompt("Enter a screen name");
+    //var name = windowPrompt("Enter a screen name");
+    String name;
+    do {
+      name = windowPrompt("Enter a screen name");
+    } while (name.length > 20 ||
+        window.confirm("Your name is ${name.length} "
+            "characters long, so you will start with ${name.length} "
+            "cards in your hand. Is this acceptable?"));
     var channel = HtmlWebSocketChannel.connect((StringBuffer()
           ..write(window.origin.replaceFirst("http", "ws"))
           ..write("/ws/game?code=")
