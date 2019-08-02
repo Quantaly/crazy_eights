@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:html';
 
 import 'package:crazy_eights_common/common.dart';
 import 'package:web_socket_channel/html.dart';
@@ -12,8 +13,8 @@ class GameConnectionService {
   GameConnection connect(String code) {
     var name = windowPrompt("Enter a screen name");
     var channel = HtmlWebSocketChannel.connect((StringBuffer()
-          // TODO base connection URL on actual origin
-          ..write("ws://10.0.1.133:8080/ws/game?code=")
+          ..write(window.origin.replaceFirst("http", "ws"))
+          ..write("/ws/game?code=")
           ..write(Uri.encodeQueryComponent(code))
           ..write("&name=")
           ..write(Uri.encodeQueryComponent(name)))
