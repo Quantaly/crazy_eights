@@ -1,0 +1,55 @@
+import 'dart:async';
+import 'dart:convert';
+
+import 'package:crazy_eights_common/common.dart';
+import 'package:web_socket_channel/html.dart';
+
+import '../utils/window_prompt.dart';
+
+export 'mock_game_connection_service.dart';
+
+class GameConnectionService {
+  GameConnection connect(String code) {
+    var name = windowPrompt("Enter a screen name");
+    var channel = HtmlWebSocketChannel.connect((StringBuffer()
+          // TODO base connection URL on actual origin
+          ..write("ws://10.0.1.133:8080/ws/game?code=")
+          ..write(Uri.encodeQueryComponent(code))
+          ..write("&name=")
+          ..write(Uri.encodeQueryComponent(name)))
+        .toString());
+
+    return GameConnection(
+      channel.stream.transform(StreamTransformer.fromHandlers(
+        handleData: (data, sink) {
+          if (data is String) {
+            sink.add(serializers.deserialize(jsonDecode(data)));
+          }
+        },
+        handleDone: (sink) => sink.close(),
+      )),
+      _PlayerActionSink(channel.sink),
+    );
+  }
+}
+
+class GameConnection {
+  final Stream<PlayerVision> playerVisionStream;
+  final Sink<PlayerAction> playerActionSink;
+  GameConnection(this.playerVisionStream, this.playerActionSink);
+}
+
+class _PlayerActionSink implements Sink<PlayerAction> {
+  final Sink _connectionSink;
+  _PlayerActionSink(this._connectionSink);
+
+  @override
+  void add(PlayerAction data) {
+    _connectionSink.add(jsonEncode(serializers.serialize(data)));
+  }
+
+  @override
+  void close() {
+    _connectionSink.close();
+  }
+}

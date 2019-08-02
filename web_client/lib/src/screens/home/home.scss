@@ -1,0 +1,108 @@
+@import "package:crazy_eights_web_client/shared";
+
+.outermost {
+    @include media("<=tablet") {
+        margin: 5%;
+        text-align: center;
+    }
+
+    @include media(">=tablet") {
+        margin: 15px;
+    }
+}
+
+.controls-wrapper {
+    @include media("<=tablet") {
+        display: initial;
+    }
+
+    @include media(">=tablet") {
+        // gets it to not extend across the entire screen
+        display: inline-block;
+    }
+}
+
+.controls {
+    display: grid;
+    grid-gap: 5px;
+
+    @include media("<=tablet") {
+        grid-template-areas: 'create-game'
+                             '#{unique-id()}'
+                             'join-code-entry'
+                             'join-game';
+        grid-template-rows: auto
+                            1em
+                            auto
+                            auto;
+        grid-template-columns: auto;
+    }
+
+    @include media(">=tablet") {
+        grid-template-areas: 'create-game create-game'
+                             '#{unique-id()} #{unique-id()}'
+                             'join-code-entry join-game';
+        grid-template-rows: auto
+                            30px
+                            auto;
+        grid-template-columns: auto auto;
+    }
+}
+
+button {
+    font-size: 18pt;
+    color: white;
+    border: 1px white;
+    border-radius: 10px;
+
+    @include media("<=tablet") {
+        padding: 1em;
+    }
+
+    @include media(">=tablet") {
+        padding: 1em 3em;
+    }
+}
+
+@include class-grid("create-game", "join-code-entry", "join-game");
+
+.create-game {
+    background-color: #00da15;
+}
+
+.join-code-label {
+    @include media("<=tablet") {
+        display: inline;
+    }
+
+    @include media(">=tablet") {
+        display: block;
+    }
+}
+
+.join-game {
+    background-color: #0015e1;
+
+    &:disabled {
+        background-color: #888;
+        color: #ddd;
+    }
+}
+
+img {
+    display: block;
+
+    @include media("<=tablet") {
+        margin-top: 2em;
+        width: 100%;
+    }
+
+    @include media(">=tablet") {
+        margin-top: 50px;
+        width: 500px;
+    }
+}
+
+aside {
+    color: blue;
+}

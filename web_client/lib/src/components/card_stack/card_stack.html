@@ -1,0 +1,36 @@
+<div class="outermost">
+    <img [src]="(imageSrcF | async) ?? ''"
+         [class.img-disabled]="disabled"
+         (click)="dispatch(null)" />
+    <div *ngIf="displaySingleSuit != null"
+         class="single-suit-container"
+         [ngSwitch]="displaySingleSuit">
+        <div *ngSwitchCase="Suit.hearts"
+             class="hearts">&hearts;</div>
+        <div *ngSwitchCase="Suit.diamonds"
+             class="diams">&diams;</div>
+        <div *ngSwitchCase="Suit.spades"
+             class="spades">&spades;</div>
+        <div *ngSwitchCase="Suit.clubs"
+             class="clubs">&clubs;</div>
+    </div>
+    <div *ngIf="displaySuitSelectors"
+         class="suit-selector-container">
+        <button class="hearts"
+                [disabled]="disabled"
+                (click)="dispatch(Suit.hearts)">&hearts;</button>
+        <button class="diams"
+                [disabled]="disabled"
+                (click)="dispatch(Suit.diamonds)">&diams;</button>
+        <button class="spades"
+                [disabled]="disabled"
+                (click)="dispatch(Suit.spades)">&spades;</button>
+        <button class="clubs"
+                [disabled]="disabled"
+                (click)="dispatch(Suit.clubs)">&clubs;</button>
+    </div>
+    <div *ngIf="stackSize != null"
+         class="stack-size-container">
+        <div class="stack-size-indicator">{{stackSize}}</div>
+    </div>
+</div>

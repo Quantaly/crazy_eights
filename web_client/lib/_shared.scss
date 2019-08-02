@@ -1,0 +1,14 @@
+@import "include-media/include-media";
+
+$table-color: #eeffee;
+$hand-color: #aaddaa;
+
+@mixin class-grid($classes...) {
+    /* class-grid */
+    @each $class in $classes {
+        .#{$class} {
+            grid-area: #{$class};
+        }
+    }
+    /* end class-grid */
+}

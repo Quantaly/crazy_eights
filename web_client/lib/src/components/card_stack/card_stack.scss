@@ -1,0 +1,122 @@
+@import "package:crazy_eights_web_client/shared";
+
+.outermost {
+    position: relative;
+    display: inline-block;
+}
+
+img {
+    z-index: 1;
+    
+    @include media("<=tablet") {
+        width: 1in;
+    }
+
+    @include media(">=tablet") {
+        width: 1.25in;
+    }
+}
+
+.img-disabled {
+    filter: grayscale(50%) contrast(75%);
+}
+
+.hearts, .diams {
+    color: red;
+}
+
+.single-suit-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 100%;
+
+    z-index: 2;
+
+    background-color: white;
+
+    filter: opacity(75%);
+
+    div {
+        height: 100%;
+        text-align: center;
+        font-size: 56pt;
+
+        @include media("<=tablet") {
+            line-height: 1in * (528 / 345);
+        }
+
+        @include media(">=tablet") {
+            line-height: 1.25in * (528 / 345);
+        }
+    }
+}
+
+.suit-selector-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 100%;
+
+    z-index: 3;
+
+    display: grid;
+    grid-template-areas: 'hearts diams'
+                         'spades clubs';
+    grid-template-rows: auto auto;
+    grid-template-columns: auto
+                           auto;
+    
+    filter: opacity(75%);
+    
+    button {
+        @include media("<=tablet") {
+            font-size: 18pt;
+        }
+
+        @include media(">=tablet") {
+            font-size: 24pt;
+        }
+    }
+    
+    @include class-grid("hearts", "diams", "spades", "clubs");
+}
+
+$container-size: 35px;
+$indicator-size: 30px;
+
+.stack-size-container {
+    position: absolute;
+    right: 5px;
+    bottom: 10px;
+
+    z-index: 4;
+
+    border-radius: 100%;
+    background-color: $hand-color;
+    width: $container-size;
+    height: $container-size;
+
+    text-align: center;
+    vertical-align: middle;
+}
+
+.stack-size-indicator {
+    position: relative;
+    top: ($container-size - $indicator-size) / 2;
+
+    $padding: 5px;
+    border-radius: 100%;
+    background-color: $table-color;
+    padding: $padding;
+    width: $indicator-size - 2 * $padding;
+    height: $indicator-size - 2 * $padding;
+
+    text-align: center;
+    vertical-align: middle;
+    margin: auto;
+}

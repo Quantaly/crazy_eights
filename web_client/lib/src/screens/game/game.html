@@ -1,0 +1,35 @@
+<div class="game-view"
+     *ngIf="currentState != null">
+
+    <div class="opponents">
+        <span *ngFor="let opponent of currentState.opponents">
+            <ce-card-stack [image]="cardBack"
+                           [stackSize]="opponent.handSize"></ce-card-stack>
+            <span [class.has-turn]="opponent.hasTurn"
+                  [innerText]="opponent.name"></span>
+        </span>
+    </div>
+
+    <div class="ticker"
+         [innerText]="tickerText"></div>
+
+    <div class="table">
+        <ce-card-stack [image]="cardImage(currentState.lastDiscard)"
+                       [stackSize]="currentState.discardSize"
+                       [displaySingleSuit]="currentState.lastDiscard.modifiedSuit"></ce-card-stack>
+        <ce-card-stack [image]="cardBack"
+                       [stackSize]="currentState.deckSize"
+                       (select)="dispatch(draw)"></ce-card-stack>
+    </div>
+
+    <div class="hand">
+        <span *ngFor="let card of currentState.hand; let i=index">
+            <ce-card-stack [image]="cardImage(card)"
+                           [displaySuitSelectors]="card.rank == 8"
+                           [disabled]="!currentState.lastDiscard.matches(card)"
+                           (select)="dispatch(play(i, $event))"></ce-card-stack>
+        </span>
+    </div>
+
+</div>
+<div *ngIf="currentState == null">Connecting...</div>

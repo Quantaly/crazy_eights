@@ -1,0 +1,22 @@
+<div class="outermost">
+    <h1>Crazy Eights</h1>
+    
+    <div class="controls-wrapper">
+        <div class="controls">
+            <button class="create-game"
+                    (click)="createGame()">Create Game</button>
+            <div class="join-code-entry">
+                <span class="join-code-label"><label for="join-code">Join code</label>:</span>
+                <input id="join-code"
+                       autocomplete="off"
+                       [(ngModel)]="joinCode"/>
+            </div>
+            <button class="join-game"
+                    [disabled]="!validJoinCode"
+                    (click)="joinGame()">Join Game</button>
+        </div>
+    </div>
+
+    <img [src]="splashImageSrcF | async" />
+    <aside *ngIf="(splashImageSrcF | async) == null">Prefetching images...</aside>
+</div>
